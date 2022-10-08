@@ -1,11 +1,21 @@
+import styled from '@emotion/styled';
 
-const useSelectMonedas = () => {
+const Label = styled.label`
+  color: #FFF;
+  /* display: block; */
+`;
+
+// se le pasan parametros al useSelectMonedas
+const useSelectMonedas = (label) => {
   
-  const SelectMonedas = () => {
-    return console.log('Desde select monedas')
-  }
+  const SelectComponent = () => (
+    <>
+      <Label>{label}</Label>
+      
+    </>
+  );
 
-  return [ SelectMonedas ];
+  return [ SelectComponent ];
 }
 
 export default useSelectMonedas
