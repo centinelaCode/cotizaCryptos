@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import styled from '@emotion/styled';
 
 import ImagenCripto from './img/imagen-criptos.png'
@@ -48,6 +48,29 @@ function App() {
 
   // state para poder obtener de formulario la moneda y la cripto que selecciono
   const [monedas, setMonedas] = useState({})
+  const [resultado, setResultado] = useState({})
+
+  // Effect para hacer otra llamada a la API para cotizarar el valor
+  useEffect(() => {
+    // prevenimo la ejecucion cuando aun no tenemos datos
+    if(Object.keys(monedas).length > 0) {
+
+      const {moneda, criptomoneda} = monedas;
+
+      const cotizarCripto = async () => {
+        const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${criptomoneda}&tsyms=${moneda}`;
+
+        console.log(url)
+
+        const respuesta = await fetch(url);
+        const resultado = await respuesta.json();
+
+        setResultado(resultado.DISPLAY[criptomoneda][moneda]);      
+      }
+      cotizarCripto();
+    }
+  }, [monedas])
+
 
   return (
     <Container>
