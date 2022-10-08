@@ -25,7 +25,7 @@ const InputSubmit = styled.input`
 `;
 
 
-const Formulario = () => {
+const Formulario = ({setMonedas}) => {
 
   // State para las criptos que obtenemos de la API
   const [criptos, setCriptos] = useState([]);
@@ -73,6 +73,11 @@ const Formulario = () => {
 
     // si pasa la validación quitamos el Error
     setError(false);
+
+    setMonedas({
+      moneda,
+      criptomoneda,
+    })
   }
 
   

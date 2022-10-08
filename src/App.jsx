@@ -46,6 +46,9 @@ const Heading = styled.h1`
 
 function App() {
 
+  // state para poder obtener de formulario la moneda y la cripto que selecciono
+  const [monedas, setMonedas] = useState({})
+
   return (
     <Container>
       <Imagen 
@@ -54,10 +57,13 @@ function App() {
       />
       <div>
         <Heading>Cotiza Criptomonedas al Instante</Heading>
-
-
-        <Formulario />
+        <Formulario 
+          setMonedas={setMonedas}
+        />
       </div>
+
+      {monedas.moneda}
+      {monedas.criptomoneda}
 
     </Container>
    )
