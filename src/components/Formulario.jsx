@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 
 import useSelectMonedas from '../hooks/useSelectMonedas';
@@ -25,8 +25,12 @@ const InputSubmit = styled.input`
 
 const Formulario = () => {
 
+  // State para las criptos que obtenemos de la API
+  const [criptos, setCriptos] = useState([]);
+
+  // custom Hook
   const [ moneda, SelectMonedas ] = useSelectMonedas('Elige tu Moneda', monedas);
-  // const [ SelectCriptomonedas ] = useSelectMonedas('Elige tu Criptomoneda');
+  const [ criptomoneda, SelectCriptomoneda ] = useSelectMonedas('Elige tu Criptomoneda', criptos);
 
   // usamos useEffect para consumir la api: https://min-api.cryptocompare.com/
   useEffect(() => {
@@ -37,11 +41,19 @@ const Formulario = () => {
       // consumimos con fetch
       const respuesta = await fetch(url);
       const resultado = await respuesta.json();      
-      console.log(resultado.Data);
+      // console.log(resultado.Data);
 
-      
+      const arrayCriptos = resultado.Data.map( cripto => {
 
+        const objeto = {
+          id: cripto.CoinInfo.Name,
+          nombre: cripto.CoinInfo.FullName,
+        }        
+        
+        return objeto;
+      })
 
+      setCriptos(arrayCriptos)
     }
     consultaAPI();
 
@@ -51,7 +63,7 @@ const Formulario = () => {
   return (
     <form>
       <SelectMonedas />
-      {/* <SelectCriptomonedas /> */}
+      <SelectCriptomoneda />
       
       <InputSubmit 
         type="submit" value="Cotizar" 
