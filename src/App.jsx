@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import ImagenCripto from './img/imagen-criptos.png'
 import Formulario from './components/Formulario';
 import Resultados from './components/Resultados';
+import Spinner from './components/Spinner';
 
 
 // crean los styled components
@@ -50,6 +51,7 @@ function App() {
   // state para poder obtener de formulario la moneda y la cripto que selecciono
   const [monedas, setMonedas] = useState({})
   const [resultado, setResultado] = useState({})
+  const [cargando, setCargando] = useState(false)
 
   // Effect para hacer otra llamada a la API para cotizarar el valor
   useEffect(() => {
@@ -59,6 +61,10 @@ function App() {
       const {moneda, criptomoneda} = monedas;
 
       const cotizarCripto = async () => {
+        // empieza a cotizar y mostramos el mensaje Cargando
+        setCargando(true)
+        setResultado({})
+
         const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${criptomoneda}&tsyms=${moneda}`;
 
         console.log(url)
@@ -66,7 +72,10 @@ function App() {
         const respuesta = await fetch(url);
         const resultado = await respuesta.json();
 
-        setResultado(resultado.DISPLAY[criptomoneda][moneda]);      
+        setResultado(resultado.DISPLAY[criptomoneda][moneda]);
+
+        // finaliza la llamada  ala API quitamos el Cargando...        
+        setCargando(false);
       }
       cotizarCripto();
     }
@@ -84,6 +93,8 @@ function App() {
         <Formulario 
           setMonedas={setMonedas}
         />
+
+        { cargando && <Spinner /> }
 
         {/* Validamos que ya tengamos datos de la llamada a la API (propiedad PRICE) */}
         { resultado .PRICE && <Resultados  resultado={resultado} /> }      
