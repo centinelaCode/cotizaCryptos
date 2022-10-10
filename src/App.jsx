@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 
 import ImagenCripto from './img/imagen-criptos.png'
 import Formulario from './components/Formulario';
+import Resultados from './components/Resultados';
 
 
 // crean los styled components
@@ -83,10 +84,10 @@ function App() {
         <Formulario 
           setMonedas={setMonedas}
         />
-      </div>
 
-      {monedas.moneda}
-      {monedas.criptomoneda}
+        {/* Validamos que ya tengamos datos de la llamada a la API (propiedad PRICE) */}
+        { resultado .PRICE && <Resultados  resultado={resultado} /> }      
+      </div>
 
     </Container>
    )
